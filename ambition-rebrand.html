@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="supported-color-schemes" content="dark" />
+  <title>Upskillist is now Ambition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      background-color: #0a0a0a;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .email-wrapper {
+      background-color: #0a0a0a;
+      padding: 48px 24px;
+    }
+
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      padding-bottom: 48px;
+    }
+
+    .logo-img {
+      height: 28px;
+      width: auto;
+      display: inline-block;
+      mix-blend-mode: screen;
+    }
+
+    /* ── Hero — no border, no background ── */
+    .hero {
+      text-align: center;
+      padding: 0 32px 52px 32px;
+      position: relative;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 480px;
+      height: 320px;
+      background: radial-gradient(ellipse at center, rgba(206,255,20,0.09) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .rebrand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(206,255,20,0.1);
+      border: 1px solid rgba(206,255,20,0.25);
+      border-radius: 999px;
+      padding: 6px 14px;
+      margin-bottom: 32px;
+    }
+
+    .rebrand-pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #ceff14;
+    }
+
+    .rebrand-pill-text {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ceff14;
+    }
+
+    .hero-brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .hero-brand-old {
+      font-size: 22px;
+      font-weight: 700;
+      color: #4a4a4a;
+      letter-spacing: -0.01px;
+      text-decoration: line-through;
+      text-decoration-color: #2e2e2e;
+    }
+
+    .hero-arrow {
+      color: #ceff14;
+      font-size: 20px;
+      font-weight: 400;
+    }
+
+    .hero-brand-new {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-brand-new-symbol {
+      width: 28px;
+      height: 28px;
+      mix-blend-mode: screen;
+    }
+
+    .hero-brand-new-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.01px;
+    }
+
+    .hero-title {
+      font-size: 44px;
+      font-weight: 700;
+      line-height: 52px;
+      letter-spacing: -0.2px;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    .hero-title span {
+      color: #ceff14;
+    }
+
+    .hero-body {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 26px;
+      letter-spacing: -0.01px;
+      color: #b3b3b3;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, #222222 20%, #222222 80%, transparent);
+      margin: 0 0 48px 0;
+    }
+
+    /* ── Section label ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 16px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #4a4a4a;
+      margin-bottom: 20px;
+    }
+
+    /* ── Ambition section ── */
+    .ambition-section {
+      margin-bottom: 40px;
+    }
+
+    .ambition-card {
+      background-color: #131313;
+      border: 1px solid #222222;
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .ambition-card-logo {
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      mix-blend-mode: screen;
+    }
+
+    .ambition-card-content {}
+
+    .ambition-card-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ceff14;
+      margin-bottom: 8px;
+    }
+
+    .ambition-card-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 28px;
+      letter-spacing: -0.01px;
+      color: #f2f2f2;
+      margin-bottom: 10px;
+    }
+
+    .ambition-card-body {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 22px;
+      color: #b3b3b3;
+    }
+
+    /* ── Kairo section ── */
+    .kairo-section {
+      margin-bottom: 40px;
+    }
+
+    .kairo-card {
+      background-color: #131313;
+      border: 1px solid #222222;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .kairo-card-header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #131313 100%);
+      border-bottom: 1px solid #222222;
+      padding: 28px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kairo-card-header-glow {
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(ellipse at center, rgba(206,255,20,0.07) 0%, transparent 70%);
+    }
+
+    .kairo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: rgba(206,255,20,0.1);
+      border: 1px solid rgba(206,255,20,0.2);
+      border-radius: 999px;
+      padding: 4px 12px;
+      margin-bottom: 14px;
+    }
+
+    .kairo-badge-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: #ceff14;
+    }
+
+    .kairo-badge-text {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ceff14;
+    }
+
+    .kairo-name {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 40px;
+      letter-spacing: -0.2px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .kairo-tagline {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 21px;
+      color: #8c8c8c;
+    }
+
+    .kairo-card-body {
+      padding: 32px;
+    }
+
+    .kairo-features {
+      list-style: none;
+      margin-bottom: 28px;
+    }
+
+    .kairo-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .kairo-feature:last-child {
+      border-bottom: none;
+    }
+
+    .kairo-feature-icon {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      background-color: #1a1a1a;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .kairo-feature-text {}
+
+    .kairo-feature-title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      color: #f2f2f2;
+      margin-bottom: 3px;
+    }
+
+    .kairo-feature-desc {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 18px;
+      color: #8c8c8c;
+    }
+
+    .btn-primary {
+      display: block;
+      width: 100%;
+      background-color: #ceff14;
+      color: #0a0a0a;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      text-decoration: none;
+      padding: 15px 32px;
+      border-radius: 999px;
+      text-align: center;
+    }
+
+    /* ── What stays the same ── */
+    .stays-section {
+      margin-bottom: 40px;
+    }
+
+    .stays-grid {
+      display: table;
+      width: 100%;
+      border-spacing: 0;
+    }
+
+    .stays-cell {
+      display: table-cell;
+      width: 50%;
+      vertical-align: top;
+      padding-right: 8px;
+    }
+
+    .stays-cell:last-child {
+      padding-right: 0;
+      padding-left: 8px;
+    }
+
+    .stays-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      background-color: #131313;
+      border: 1px solid #222222;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+
+    .stays-check {
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      background-color: rgba(206,255,20,0.1);
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #ceff14;
+      margin-top: 1px;
+    }
+
+    .stays-text {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 20px;
+      color: #b3b3b3;
+    }
+
+    /* ── Sign-off ── */
+    .signoff {
+      background-color: #131313;
+      border: 1px solid #222222;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 40px;
+    }
+
+    .signoff-body {
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 24px;
+      color: #b3b3b3;
+      margin-bottom: 20px;
+    }
+
+    .signoff-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #f2f2f2;
+    }
+
+    .signoff-title {
+      font-size: 12px;
+      font-weight: 400;
+      color: #666666;
+      margin-top: 2px;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+    }
+
+    .footer-symbol {
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      mix-blend-mode: screen;
+      opacity: 0.35;
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      margin-bottom: 14px;
+    }
+
+    .footer-links a {
+      font-size: 12px;
+      font-weight: 500;
+      color: #4a4a4a;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer-legal {
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 18px;
+      color: #2e2e2e;
+    }
+
+    .footer-legal a {
+      color: #4a4a4a;
+      text-decoration: underline;
+    }
+
+    /* ── Responsive ── */
+    @media only screen and (max-width: 600px) {
+      .email-wrapper { padding: 32px 16px; }
+      .hero { padding: 0 16px 40px 16px; }
+      .hero-title { font-size: 32px; line-height: 40px; }
+      .hero-brand-row { flex-wrap: wrap; gap: 10px; }
+      .ambition-card { flex-direction: column; gap: 16px; }
+      .stays-grid { display: block; }
+      .stays-cell { display: block; width: 100%; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="email-wrapper">
+    <div class="email-container">
+
+      <!-- Header -->
+      <div class="header">
+        <img src="Logo.png" alt="Ambition" class="logo-img" />
+      </div>
+
+      <!-- Hero — no border, no background -->
+      <div class="hero">
+        <div class="hero-glow"></div>
+
+        <div class="rebrand-pill">
+          <div class="rebrand-pill-dot"></div>
+          <span class="rebrand-pill-text">Big News</span>
+        </div>
+
+        <div class="hero-brand-row">
+          <span class="hero-brand-old">Upskillist</span>
+          <span class="hero-arrow">→</span>
+          <div class="hero-brand-new">
+            <img src="Symbol.png" alt="" class="hero-brand-new-symbol" />
+            <span class="hero-brand-new-name">Ambition</span>
+          </div>
+        </div>
+
+        <h1 class="hero-title">A new name.<br />A <span>bigger mission.</span></h1>
+
+        <p class="hero-body">
+          Upskillist has always been about more than courses. It's been about what you become. That's why we're evolving — into something that reflects your drive, your goals, and your future.
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Ambition -->
+      <div class="ambition-section">
+        <p class="section-label">Your new home</p>
+        <div class="ambition-card">
+          <img src="Symbol.png" alt="Ambition" class="ambition-card-logo" />
+          <div class="ambition-card-content">
+            <p class="ambition-card-label">Ambition Platform</p>
+            <p class="ambition-card-title">Everything you loved about Upskillist — rebuilt for what's next</p>
+            <p class="ambition-card-body">All your courses, progress, and certificates are right here. Same content you trust, now inside a platform designed to help you move faster and go further.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kairo -->
+      <div class="kairo-section">
+        <p class="section-label">Introducing something new</p>
+        <div class="kairo-card">
+          <div class="kairo-card-header">
+            <div class="kairo-card-header-glow"></div>
+            <div class="kairo-badge">
+              <div class="kairo-badge-dot"></div>
+              <span class="kairo-badge-text">New · Exclusive to Ambition</span>
+            </div>
+            <p class="kairo-name">Meet Kairo</p>
+            <p class="kairo-tagline">Your personal AI learning guide — always in your corner.</p>
+          </div>
+          <div class="kairo-card-body">
+            <ul class="kairo-features">
+              <li class="kairo-feature">
+                <div class="kairo-feature-icon">🎯</div>
+                <div class="kairo-feature-text">
+                  <p class="kairo-feature-title">Goal tracking, reimagined</p>
+                  <p class="kairo-feature-desc">Set your goals and Kairo keeps you accountable — surfacing exactly what to do next, every day.</p>
+                </div>
+              </li>
+              <li class="kairo-feature">
+                <div class="kairo-feature-icon">🧭</div>
+                <div class="kairo-feature-text">
+                  <p class="kairo-feature-title">Personalised guidance</p>
+                  <p class="kairo-feature-desc">Kairo learns how you learn. It adapts your path in real time based on your pace, strengths, and schedule.</p>
+                </div>
+              </li>
+              <li class="kairo-feature">
+                <div class="kairo-feature-icon">💬</div>
+                <div class="kairo-feature-text">
+                  <p class="kairo-feature-title">Ask Kairo anything</p>
+                  <p class="kairo-feature-desc">Stuck on a concept? Need a study plan? Just ask — Kairo gives you instant, context-aware answers.</p>
+                </div>
+              </li>
+            </ul>
+            <a href="#" class="btn-primary">Explore Kairo</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- What stays the same -->
+      <div class="stays-section">
+        <p class="section-label">What stays the same</p>
+        <div class="stays-grid">
+          <div class="stays-cell">
+            <div class="stays-item">
+              <div class="stays-check">✓</div>
+              <span class="stays-text">All your existing courses</span>
+            </div>
+            <div class="stays-item">
+              <div class="stays-check">✓</div>
+              <span class="stays-text">Your certificates &amp; progress</span>
+            </div>
+          </div>
+          <div class="stays-cell">
+            <div class="stays-item">
+              <div class="stays-check">✓</div>
+              <span class="stays-text">Your login &amp; password</span>
+            </div>
+            <div class="stays-item">
+              <div class="stays-check">✓</div>
+              <span class="stays-text">Your subscription plan</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sign-off -->
+      <div class="signoff">
+        <p class="signoff-body">
+          We're incredibly proud of what this community has built together. This rebrand isn't the end of something — it's the beginning of a bigger chapter. We can't wait to grow with you inside Ambition.
+        </p>
+        <p class="signoff-name">The Ambition Team</p>
+        <p class="signoff-title">Formerly Upskillist</p>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <img src="Symbol.png" alt="" class="footer-symbol" />
+        <div class="footer-links">
+          <a href="#">Help Centre</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Unsubscribe</a>
+        </div>
+        <p class="footer-legal">
+          © 2026 Ambition (formerly Upskillist). All rights reserved.<br />
+          <a href="#">Manage preferences</a> · <a href="#">View in browser</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

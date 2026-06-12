@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="supported-color-schemes" content="dark" />
+  <title>Welcome to Ambition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      background-color: #0a0a0a;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .email-wrapper {
+      background-color: #0a0a0a;
+      padding: 48px 24px;
+      min-height: 100vh;
+    }
+
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #0a0a0a;
+    }
+
+    /* ── Header ── */
+    .header {
+      padding: 0 0 40px 0;
+      text-align: center;
+    }
+
+    .logo-img {
+      height: 32px;
+      width: auto;
+      display: inline-block;
+      mix-blend-mode: screen;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background-color: #131313;
+      border: 1px solid #222222;
+      border-radius: 16px;
+      padding: 56px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 300px;
+      background: radial-gradient(ellipse at center, rgba(206,255,20,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-symbol {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 32px auto;
+      display: block;
+      mix-blend-mode: screen;
+    }
+
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ceff14;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 48px;
+      letter-spacing: -0.2px;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .hero-title span {
+      color: #ceff14;
+    }
+
+    .hero-body {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: -0.01px;
+      color: #b3b3b3;
+      max-width: 420px;
+      margin: 0 auto 36px auto;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background-color: #ceff14;
+      color: #0a0a0a;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: 0;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 999px;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background-color: #222222;
+      margin: 32px 0;
+    }
+
+    /* ── Feature Cards ── */
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #8c8c8c;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .cards-row {
+      display: table;
+      width: 100%;
+      border-spacing: 0;
+    }
+
+    .card-cell {
+      display: table-cell;
+      width: 33.33%;
+      padding: 0 8px;
+      vertical-align: top;
+    }
+
+    .card-cell:first-child { padding-left: 0; }
+    .card-cell:last-child { padding-right: 0; }
+
+    .feature-card {
+      background-color: #131313;
+      border: 1px solid #222222;
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .card-icon {
+      width: 36px;
+      height: 36px;
+      background-color: rgba(206,255,20,0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .card-icon img {
+      width: 20px;
+      height: 20px;
+      mix-blend-mode: screen;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: -0.01px;
+      color: #f2f2f2;
+      margin-bottom: 6px;
+    }
+
+    .card-body {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 18px;
+      color: #b3b3b3;
+    }
+
+    /* ── Stats Row ── */
+    .stats-section {
+      background-color: #131313;
+      border: 1px solid #222222;
+      border-radius: 16px;
+      padding: 32px;
+      margin-top: 16px;
+    }
+
+    .stats-row {
+      display: table;
+      width: 100%;
+    }
+
+    .stat-cell {
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+      width: 33.33%;
+    }
+
+    .stat-divider {
+      display: table-cell;
+      width: 1px;
+      background-color: #222222;
+      vertical-align: middle;
+    }
+
+    .stat-divider-inner {
+      width: 1px;
+      height: 40px;
+      background-color: #222222;
+      margin: 0 auto;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 36px;
+      letter-spacing: -0.2px;
+      color: #ceff14;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 16px;
+      color: #8c8c8c;
+      display: block;
+      margin-top: 4px;
+    }
+
+    /* ── Steps ── */
+    .steps-section {
+      margin-top: 16px;
+    }
+
+    .step-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px;
+      background-color: #131313;
+      border: 1px solid #222222;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      background-color: #222222;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #ceff14;
+      line-height: 1;
+    }
+
+    .step-content {}
+
+    .step-title {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #f2f2f2;
+      margin-bottom: 4px;
+    }
+
+    .step-desc {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 18px;
+      color: #b3b3b3;
+    }
+
+    /* ── CTA Banner ── */
+    .cta-banner {
+      margin-top: 16px;
+      background: linear-gradient(135deg, #131313 0%, #1a1a1a 100%);
+      border: 1px solid #2e2e2e;
+      border-radius: 16px;
+      padding: 40px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-banner-glow {
+      position: absolute;
+      bottom: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 200px;
+      background: radial-gradient(ellipse at center, rgba(206,255,20,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-title {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 32px;
+      letter-spacing: -0.01px;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .cta-body {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 21px;
+      color: #b3b3b3;
+      margin-bottom: 28px;
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      background-color: transparent;
+      color: #ceff14;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      text-decoration: none;
+      padding: 13px 32px;
+      border-radius: 999px;
+      border: 1.5px solid #ceff14;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 40px 0 0 0;
+      text-align: center;
+    }
+
+    .footer-logo {
+      height: 24px;
+      width: auto;
+      display: inline-block;
+      margin-bottom: 20px;
+      mix-blend-mode: screen;
+      opacity: 0.4;
+    }
+
+    .footer-links {
+      margin-bottom: 16px;
+    }
+
+    .footer-links a {
+      font-size: 12px;
+      font-weight: 500;
+      color: #666666;
+      text-decoration: none;
+      margin: 0 12px;
+    }
+
+    .footer-divider {
+      height: 1px;
+      background-color: #1a1a1a;
+      margin: 20px 0;
+    }
+
+    .footer-legal {
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 18px;
+      color: #4a4a4a;
+    }
+
+    .footer-legal a {
+      color: #666666;
+      text-decoration: underline;
+    }
+
+    /* ── Responsive ── */
+    @media only screen and (max-width: 600px) {
+      .email-wrapper { padding: 24px 16px; }
+      .hero { padding: 40px 24px; }
+      .hero-title { font-size: 28px; line-height: 36px; }
+
+      .cards-row { display: block; }
+      .card-cell {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 8px;
+      }
+      .card-cell:last-child { margin-bottom: 0; }
+
+      .stats-row { display: block; }
+      .stat-cell { display: block; width: 100%; padding: 12px 0; }
+      .stat-divider { display: none; }
+
+      .step-row { flex-direction: row; }
+      .cta-banner { padding: 32px 24px; }
+      .cta-title { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="email-wrapper">
+    <div class="email-container">
+
+      <!-- Header -->
+      <div class="header">
+        <img src="Logo.png" alt="Ambition" class="logo-img" />
+      </div>
+
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-glow"></div>
+        <img src="Symbol.png" alt="" class="hero-symbol" />
+        <p class="hero-eyebrow">Welcome Aboard</p>
+        <h1 class="hero-title">Your ambition<br />starts <span>right here.</span></h1>
+        <p class="hero-body">
+          You've taken the first step. Ambition is your personal learning space — built to help you grow faster, stay focused, and reach goals that actually matter to you.
+        </p>
+        <a href="#" class="btn-primary">Start Learning Now</a>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Feature Cards -->
+      <p class="section-label">What's waiting for you</p>
+      <div class="cards-row">
+        <div class="card-cell">
+          <div class="feature-card">
+            <div class="card-icon">
+              <img src="Symbol.png" alt="" />
+            </div>
+            <p class="card-title">Expert Courses</p>
+            <p class="card-body">Hundreds of courses crafted by industry leaders across every field.</p>
+          </div>
+        </div>
+        <div class="card-cell">
+          <div class="feature-card">
+            <div class="card-icon">
+              <img src="Symbol.png" alt="" />
+            </div>
+            <p class="card-title">Guided Paths</p>
+            <p class="card-body">Follow structured learning paths designed to get you from zero to skilled, fast.</p>
+          </div>
+        </div>
+        <div class="card-cell">
+          <div class="feature-card">
+            <div class="card-icon">
+              <img src="Symbol.png" alt="" />
+            </div>
+            <p class="card-title">Track Progress</p>
+            <p class="card-body">See exactly where you stand and what's next with smart progress tracking.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-section">
+        <div class="stats-row">
+          <div class="stat-cell">
+            <span class="stat-value">500+</span>
+            <span class="stat-label">Courses available</span>
+          </div>
+          <div class="stat-divider"><div class="stat-divider-inner"></div></div>
+          <div class="stat-cell">
+            <span class="stat-value">1M+</span>
+            <span class="stat-label">Learners worldwide</span>
+          </div>
+          <div class="stat-divider"><div class="stat-divider-inner"></div></div>
+          <div class="stat-cell">
+            <span class="stat-value">95%</span>
+            <span class="stat-label">Completion rate</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Steps -->
+      <p class="section-label">Get started in 3 steps</p>
+      <div class="steps-section">
+        <div class="step-row">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <p class="step-title">Complete your profile</p>
+            <p class="step-desc">Tell us about your goals so we can personalise your experience from day one.</p>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <p class="step-title">Choose your first course</p>
+            <p class="step-desc">Browse by goal — whether you want to grow your career, start a business, or master a new skill.</p>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <p class="step-title">Learn at your pace</p>
+            <p class="step-desc">Mobile, desktop, on or offline — Ambition is always ready when you are.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Banner -->
+      <div class="cta-banner">
+        <div class="cta-banner-glow"></div>
+        <h2 class="cta-title">Ready to unlock your potential?</h2>
+        <p class="cta-body">Your first lesson is waiting. It only takes a few minutes to begin — and momentum does the rest.</p>
+        <a href="#" class="btn-secondary">Explore Courses</a>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <img src="Symbol.png" alt="Ambition" class="footer-logo" />
+        <div class="footer-links">
+          <a href="#">Help Centre</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Unsubscribe</a>
+        </div>
+        <div class="footer-divider"></div>
+        <p class="footer-legal">
+          You're receiving this email because you signed up for Ambition.<br />
+          © 2026 Ambition. All rights reserved.<br />
+          <a href="#">Manage preferences</a> · <a href="#">View in browser</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

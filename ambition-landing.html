@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ambition — Turn Ambition Into Momentum</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
+  <style>
+    :root {
+      --brand: #ceff14;
+      --bg: #0a0a0a;
+      --s1: #131313;
+      --s2: #1a1a1a;
+      --s3: #222222;
+      --s4: #2e2e2e;
+      --text-primary: #ffffff;
+      --text-secondary: #b3b3b3;
+      --text-muted: #666666;
+      --border: #222222;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ensure all sections sit above the canvas */
+    nav, section, .marquee-section, #hscroll-outer, #hscroll-progress, footer {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 40px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s, border-color 0.4s, backdrop-filter 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo img {
+      height: 22px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-cta a.ghost {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    /* Energy — primary action only */
+    .btn-primary {
+      background: var(--brand);
+      color: #0a0a0a;
+      padding: 11px 22px;
+      border-radius: 999px;
+    }
+    .btn-primary:hover { box-shadow: 0 0 20px rgba(206,255,20,0.25); }
+    /* White — nav CTA / brand primary */
+    .btn-white {
+      background: #ffffff;
+      color: #0a0a0a;
+      padding: 11px 22px;
+      border-radius: 999px;
+    }
+    .btn-white:hover { background: #f0f0f0; }
+    .btn-large {
+      padding: 16px 36px;
+      font-size: 16px;
+      border-radius: 999px;
+    }
+    /* Secondary action — plain link style */
+    .btn-link {
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: underline;
+      text-decoration-color: rgba(255,255,255,0.2);
+      text-underline-offset: 3px;
+      padding: 0;
+      border-radius: 0;
+      transition: color 0.2s;
+    }
+    .btn-link:hover { color: var(--text-primary); text-decoration-color: rgba(255,255,255,0.5); transform: none; }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-glow-1 {
+      position: absolute;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 600px;
+      background: radial-gradient(ellipse at center, rgba(206,255,20,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-glow-2 {
+      position: absolute;
+      bottom: -100px; left: 20%;
+      width: 400px; height: 400px;
+      background: radial-gradient(ellipse, rgba(206,255,20,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--s1);
+      border: 1px solid var(--s3);
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      opacity: 0;
+    }
+    .eyebrow-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    .hero-headline {
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 28px;
+      max-width: 900px;
+    }
+    .hero-headline .word { display: inline-block; overflow: hidden; }
+    .hero-headline .word-inner { display: inline-block; }
+    .hero-headline .accent { color: var(--brand); }
+
+    .hero-sub {
+      font-size: clamp(17px, 2vw, 20px);
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto 48px;
+      opacity: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+    }
+    .hero-social-proof {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 56px;
+      opacity: 0;
+    }
+    .proof-avatars {
+      display: flex;
+    }
+    .proof-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+      margin-left: -8px;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .proof-avatar:first-child { margin-left: 0; }
+    .pa1 { background: #2d4a1e; color: var(--brand); }
+    .pa2 { background: #1e2d4a; color: #4a9eff; }
+    .pa3 { background: #4a1e2d; color: #ff6b9d; }
+    .pa4 { background: #2d1e4a; color: #9b6bff; }
+    .proof-text {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    .proof-text strong { color: var(--text-primary); }
+
+    /* scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0;
+    }
+    .scroll-indicator span {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, var(--text-muted), transparent);
+      animation: scrollLine 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0% { transform: scaleY(0); transform-origin: top; opacity: 1; }
+      50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      51% { transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+    }
+
+    /* ─── MARQUEE ─── */
+    .marquee-section {
+      padding: 0;
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--s1);
+    }
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 40px;
+      white-space: nowrap;
+      border-right: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .marquee-item .dot { color: var(--s4); font-size: 18px; line-height: 1; }
+
+    /* ─── PROBLEM SECTION ─── */
+    #problem {
+      padding: 140px 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .problem-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 48px;
+    }
+    .problem-statement {
+      font-size: clamp(32px, 5vw, 64px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+    .problem-statement .line { display: block; overflow: hidden; }
+    .problem-statement .line-inner { display: block; }
+    .problem-muted { color: var(--s4); }
+    .problem-mid { color: var(--text-muted); }
+    .problem-bright { color: var(--text-primary); }
+    .problem-accent { color: var(--brand); }
+
+    /* ─── HORIZONTAL SCROLL ─── */
+    #hscroll-outer {
+      position: relative;
+    }
+    #hscroll-pin {
+      position: relative;
+      overflow: hidden;
+      height: 100vh;
+    }
+    #hscroll-track {
+      display: flex;
+      height: 100%;
+      will-change: transform;
+    }
+    .hscroll-panel {
+      min-width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 60px;
+      flex-shrink: 0;
+    }
+    /* Panel 0 — section intro */
+    .panel-intro {
+      flex-direction: column;
+      text-align: center;
+    }
+    .panel-intro-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-muted); margin-bottom: 24px;
+    }
+    .panel-intro-title {
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 900; line-height: 1.05; letter-spacing: -0.03em;
+      max-width: 700px;
+    }
+    .panel-intro-sub {
+      font-size: 18px; color: var(--text-secondary); max-width: 480px;
+      margin-top: 20px; line-height: 1.6;
+    }
+
+    /* Feature panels */
+    .panel-feature {
+      gap: 80px;
+    }
+    .panel-feature-left {
+      flex: 0 0 380px;
+    }
+    .panel-num {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .panel-num::after {
+      content: '';
+      display: block;
+      width: 32px; height: 1px;
+      background: var(--s4);
+    }
+    .panel-feature-title {
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 800; line-height: 1.1; letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .panel-feature-body {
+      font-size: 16px; line-height: 1.7; color: var(--text-secondary);
+    }
+    .panel-feature-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .panel-visual {
+      width: 100%;
+      max-width: 520px;
+      border-radius: 20px;
+      background: var(--s1);
+      border: 1px solid var(--s3);
+      overflow: hidden;
+    }
+
+    /* Kairo mock UI visuals */
+    .mock-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--s3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .mock-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .mock-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand) 0%, #8bff00 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; color: #0a0a0a; margin-left: auto;
+    }
+    .mock-name {
+      font-size: 13px; font-weight: 600; color: var(--text-primary); margin-left: 4px;
+    }
+    .mock-status {
+      font-size: 11px; font-weight: 500; color: var(--brand);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .mock-status::before {
+      content: ''; width: 5px; height: 5px; border-radius: 50%;
+      background: var(--brand); display: inline-block;
+    }
+    .mock-body { padding: 20px; }
+    .mock-chat { display: flex; flex-direction: column; gap: 12px; }
+    .msg {
+      max-width: 85%;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .msg-kairo {
+      background: var(--s2);
+      color: var(--text-secondary);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+    .msg-user {
+      background: rgba(206,255,20,0.1);
+      border: 1px solid rgba(206,255,20,0.2);
+      color: var(--text-primary);
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+    .mock-footer {
+      padding: 12px 20px;
+      border-top: 1px solid var(--s3);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .mock-input {
+      flex: 1; padding: 10px 14px;
+      background: var(--s2); border-radius: 999px;
+      font-size: 12px; color: var(--text-muted);
+    }
+    .mock-send {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--brand);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; color: #0a0a0a;
+    }
+
+    /* Goal card mock */
+    .mock-goal-card {
+      padding: 20px;
+    }
+    .mock-goal-top {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .mock-goal-label { font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+    .mock-goal-badge {
+      background: rgba(206,255,20,0.1); border: 1px solid rgba(206,255,20,0.2);
+      border-radius: 999px; padding: 4px 10px;
+      font-size: 10px; font-weight: 700; color: var(--brand); letter-spacing: 0.06em;
+    }
+    .mock-goal-title { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; }
+    .mock-progress-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .mock-progress-bar { flex: 1; height: 4px; background: var(--s3); border-radius: 2px; overflow: hidden; }
+    .mock-progress-fill { height: 100%; background: var(--brand); border-radius: 2px; transition: width 1s ease; }
+    .mock-progress-pct { font-size: 12px; font-weight: 700; color: var(--brand); }
+    .mock-step-list { display: flex; flex-direction: column; gap: 8px; }
+    .mock-step {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 8px; background: var(--s2);
+      font-size: 12px; font-weight: 500;
+    }
+    .mock-step.done { color: var(--text-muted); }
+    .mock-step.done .step-check { color: var(--brand); }
+    .mock-step.active { border: 1px solid rgba(206,255,20,0.3); color: var(--text-primary); }
+    .mock-step.active .step-check { color: var(--s4); }
+    .step-check { font-size: 14px; }
+
+    /* Upshot mock */
+    .mock-upshot { padding: 20px; }
+    .mock-upshot-label { font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px; }
+    .mock-upshot-card {
+      background: var(--s2); border-radius: 12px;
+      padding: 16px; margin-bottom: 10px;
+      border-left: 3px solid var(--brand);
+    }
+    .mock-upshot-card-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+    .mock-upshot-card-sub { font-size: 11px; color: var(--text-muted); }
+    .mock-upshot-meta { display: flex; gap: 8px; margin-top: 10px; }
+    .meta-pill {
+      padding: 3px 10px; border-radius: 999px;
+      font-size: 10px; font-weight: 600;
+    }
+    .meta-pill.time { background: var(--s3); color: var(--text-muted); }
+    .meta-pill.type { background: var(--s3); color: var(--text-secondary); }
+
+    /* ─── PROGRESS BAR SECTION ─── */
+    #hscroll-progress {
+      height: 2px;
+      background: var(--s2);
+      position: relative;
+    }
+    #hscroll-progress-fill {
+      height: 100%;
+      background: var(--text-muted);
+      width: 0%;
+      transition: width 0.1s;
+    }
+
+    /* ─── MEET KAIRO ─── */
+    #kairo {
+      padding: 140px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 900; line-height: 1.05; letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+    .section-sub {
+      font-size: 18px; line-height: 1.7; color: var(--text-secondary);
+      max-width: 500px; margin-bottom: 64px;
+    }
+    .kairo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 16px;
+    }
+    .kairo-card {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .kairo-card:hover {
+      border-color: var(--s4);
+      transform: translateY(-4px);
+    }
+    .kairo-card.featured {
+      grid-column: span 2;
+      background: linear-gradient(135deg, #131313, #1a1a1a);
+    }
+    .kairo-card.tall { grid-row: span 2; }
+    .card-icon {
+      width: 40px; height: 40px;
+      background: var(--s2);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; margin-bottom: 20px;
+    }
+    .card-title {
+      font-size: 18px; font-weight: 700; line-height: 1.3;
+      letter-spacing: -0.01em; color: var(--text-primary); margin-bottom: 10px;
+    }
+    .card-body {
+      font-size: 14px; line-height: 1.7; color: var(--text-secondary);
+    }
+    .card-stat {
+      margin-top: 24px;
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .stat-num {
+      font-size: 40px; font-weight: 900; color: var(--brand); letter-spacing: -0.03em;
+    }
+    .stat-label { font-size: 13px; color: var(--text-muted); }
+
+    /* ─── THE SHIFT ─── */
+    #shift {
+      padding: 140px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .shift-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 64px;
+    }
+    .shift-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--s2);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .shift-from {
+      flex: 1; text-align: right;
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 700; color: var(--s4);
+      text-decoration: line-through;
+      text-decoration-color: var(--s3);
+    }
+    .shift-arrow {
+      font-size: 20px; color: var(--s4);
+      flex-shrink: 0; font-weight: 300;
+    }
+    .shift-to {
+      flex: 1; text-align: left;
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 700; color: var(--text-primary);
+    }
+
+    /* ─── POSITIONS ─── */
+    #position {
+      padding: 140px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .position-bg-text {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: clamp(100px, 20vw, 220px);
+      font-weight: 900;
+      color: rgba(255,255,255,0.015);
+      letter-spacing: -0.05em;
+      pointer-events: none;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .not-grid {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: 48px 0;
+    }
+    .not-item {
+      padding: 12px 24px;
+      border-radius: 999px;
+      border: 1px solid var(--s3);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: line-through;
+      text-decoration-color: var(--s4);
+    }
+    .position-answer {
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .position-answer .accent { color: var(--brand); }
+    .position-sub {
+      font-size: 20px; color: var(--text-secondary);
+      max-width: 480px; margin: 24px auto 0; line-height: 1.6;
+    }
+
+    /* ─── FINAL CTA ─── */
+    #cta {
+      padding: 140px 40px;
+      text-align: center;
+      position: relative;
+    }
+    .cta-glow {
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse, rgba(206,255,20,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-title {
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 900; line-height: 1.05; letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+    .cta-sub {
+      font-size: 18px; color: var(--text-secondary); max-width: 460px;
+      margin: 0 auto 48px; line-height: 1.6;
+    }
+    .cta-actions {
+      display: flex; align-items: center; gap: 16px;
+      justify-content: center; flex-wrap: wrap;
+    }
+    .cta-note {
+      margin-top: 20px;
+      font-size: 12px; color: var(--text-muted);
+    }
+    .cta-note span { color: var(--text-secondary); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 48px 40px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-logo img {
+      height: 20px;
+    }
+    .footer-links {
+      display: flex; gap: 28px;
+    }
+    .footer-links a {
+      font-size: 13px; font-weight: 500;
+      color: var(--text-muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text-secondary); }
+    .footer-legal {
+      font-size: 12px; color: var(--text-muted);
+    }
+
+    /* ─── CURSOR GLOW ─── */
+    .cursor-glow {
+      position: fixed;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(206,255,20,0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      #hero { padding: 100px 20px 80px; }
+      .hscroll-panel { padding: 60px 24px; }
+      .panel-feature { flex-direction: column; gap: 40px; }
+      .panel-feature-left { flex: none; }
+      .panel-visual { max-width: 100%; }
+      #kairo { padding: 80px 20px; }
+      .kairo-grid { grid-template-columns: 1fr; }
+      .kairo-card.featured { grid-column: span 1; }
+      .kairo-card.tall { grid-row: span 1; }
+      #shift { padding: 80px 20px; }
+      .shift-from, .shift-to { font-size: 16px; }
+      #position { padding: 80px 20px; }
+      #cta { padding: 80px 20px; }
+      footer { padding: 32px 20px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Canvas -->
+  <canvas id="bgCanvas" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+
+  <!-- Cursor Glow -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- NAV -->
+  <nav id="mainNav">
+    <a href="#" class="nav-logo"><img src="ambition-Logo-onDark.png" alt="Ambition" /></a>
+    <ul class="nav-links">
+      <li><a href="#kairo">Kairo</a></li>
+      <li><a href="#shift">Why Ambition</a></li>
+      <li><a href="#position">About</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="#" class="ghost">Sign in</a>
+      <a href="#cta" class="btn btn-white">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+
+    <div class="hero-eyebrow" id="heroEyebrow">
+      <div class="eyebrow-dot"></div>
+      Introducing Ambition &amp; Kairo
+    </div>
+
+    <h1 class="hero-headline" id="heroHeadline">
+      Turn ambition<br />into <span class="accent">momentum.</span>
+    </h1>
+
+    <p class="hero-sub" id="heroSub">
+      Ambition is the belief. Kairo is your AI guide. Together, they make progress inevitable — every single day.
+    </p>
+
+    <div class="hero-actions" id="heroActions">
+      <a href="#cta" class="btn btn-primary btn-large">Start with Kairo</a>
+    </div>
+    <a href="#hscroll-outer" class="btn btn-link" id="heroSecondary" style="margin-top:20px;opacity:0;">See how it works ↓</a>
+
+    <div class="hero-social-proof" id="heroProof">
+      <div class="proof-avatars">
+        <div class="proof-avatar pa1">AK</div>
+        <div class="proof-avatar pa2">MJ</div>
+        <div class="proof-avatar pa3">SR</div>
+        <div class="proof-avatar pa4">TL</div>
+      </div>
+      <p class="proof-text">Joined by <strong>12,000+</strong> early members</p>
+    </div>
+
+    <div class="scroll-indicator" id="scrollIndicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-section">
+    <div class="marquee-track" id="marqueeTrack">
+      <div class="marquee-item"><span class="dot">✦</span> AI-Guided Progress</div>
+      <div class="marquee-item"><span class="dot">✦</span> Never Drift</div>
+      <div class="marquee-item"><span class="dot">✦</span> Turn Ambition Into Momentum</div>
+      <div class="marquee-item"><span class="dot">✦</span> Meet Kairo</div>
+      <div class="marquee-item"><span class="dot">✦</span> Make Progress Inevitable</div>
+      <div class="marquee-item"><span class="dot">✦</span> Direction Over Noise</div>
+      <div class="marquee-item"><span class="dot">✦</span> Move Forward Daily</div>
+      <div class="marquee-item"><span class="dot">✦</span> AI-Guided Progress</div>
+      <div class="marquee-item"><span class="dot">✦</span> Never Drift</div>
+      <div class="marquee-item"><span class="dot">✦</span> Turn Ambition Into Momentum</div>
+      <div class="marquee-item"><span class="dot">✦</span> Meet Kairo</div>
+      <div class="marquee-item"><span class="dot">✦</span> Make Progress Inevitable</div>
+      <div class="marquee-item"><span class="dot">✦</span> Direction Over Noise</div>
+      <div class="marquee-item"><span class="dot">✦</span> Move Forward Daily</div>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <section id="problem">
+    <p class="problem-label">The reality</p>
+    <div class="problem-statement" id="problemStatement">
+      <span class="line"><span class="line-inner problem-muted">The internet solved content.</span></span>
+      <span class="line"><span class="line-inner problem-mid">It did not solve direction.</span></span>
+      <span class="line"><span class="line-inner problem-bright">You don't need more to learn.</span></span>
+      <span class="line"><span class="line-inner problem-accent">You need somewhere to go.</span></span>
+    </div>
+  </section>
+
+  <!-- HORIZONTAL SCROLL -->
+  <div id="hscroll-outer">
+    <div id="hscroll-pin">
+      <div id="hscroll-track">
+
+        <!-- Panel 0: Intro -->
+        <div class="hscroll-panel panel-intro">
+          <p class="panel-intro-label">Kairo — Your AI Progress Guide</p>
+          <h2 class="panel-intro-title">You tell Kairo what you want.<br /><span style="color:var(--brand)">Kairo makes it happen.</span></h2>
+          <p class="panel-intro-sub">Scroll to see how Kairo guides you from ambition to action — every day.</p>
+        </div>
+
+        <!-- Panel 1: Ask Kairo -->
+        <div class="hscroll-panel panel-feature">
+          <div class="panel-feature-left">
+            <div class="panel-num">01</div>
+            <h3 class="panel-feature-title">Ask Kairo anything.<br />Get direction, not<br /><span style="color:var(--brand)">just answers.</span></h3>
+            <p class="panel-feature-body">Kairo doesn't wait for you to figure it out. Tell Kairo your goal, your situation, your blockers — and it builds your path forward in real time.</p>
+          </div>
+          <div class="panel-feature-right">
+            <div class="panel-visual">
+              <div class="mock-header">
+                <div class="mock-dot" style="background:#ff5f57"></div>
+                <div class="mock-dot" style="background:#febc2e;margin-left:6px"></div>
+                <div class="mock-dot" style="background:#28c840;margin-left:6px"></div>
+                <div class="mock-avatar">K</div>
+                <div class="mock-name">Kairo</div>
+                <div class="mock-status" style="margin-left:auto">Active</div>
+              </div>
+              <div class="mock-body">
+                <div class="mock-chat">
+                  <div class="msg msg-kairo">Hey. What are you trying to build right now? Let's set a clear goal so I know where to guide you.</div>
+                  <div class="msg msg-user">I want to start my own business — I've been thinking about it for a year but keep stalling.</div>
+                  <div class="msg msg-kairo">Got it. The stalling usually means the path isn't clear enough. Let me break this down into your first real milestone. What's the biggest blocker today?</div>
+                  <div class="msg msg-user">I don't know if my idea is good enough to start.</div>
+                  <div class="msg msg-kairo">That's the drift talking. Here's your first step: a 48-hour validation sprint. I'll guide you through it — no guessing.</div>
+                </div>
+              </div>
+              <div class="mock-footer">
+                <div class="mock-input">Message Kairo…</div>
+                <div class="mock-send">→</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Goal Tracking -->
+        <div class="hscroll-panel panel-feature">
+          <div class="panel-feature-left">
+            <div class="panel-num">02</div>
+            <h3 class="panel-feature-title">Track every goal.<br />Know your next<br /><span style="color:var(--brand)">move always.</span></h3>
+            <p class="panel-feature-body">Kairo maps where you are, where you're going, and exactly what to do next. No more waking up unsure of where to focus — Kairo decides that for you.</p>
+          </div>
+          <div class="panel-feature-right">
+            <div class="panel-visual">
+              <div class="mock-header">
+                <div class="mock-dot" style="background:#ff5f57"></div>
+                <div class="mock-dot" style="background:#febc2e;margin-left:6px"></div>
+                <div class="mock-dot" style="background:#28c840;margin-left:6px"></div>
+                <div class="mock-avatar">K</div>
+                <div class="mock-name">Goal Tracker</div>
+                <div class="mock-status" style="margin-left:auto">Day 14</div>
+              </div>
+              <div class="mock-goal-card">
+                <div class="mock-goal-top">
+                  <span class="mock-goal-label">Current Goal</span>
+                  <span class="mock-goal-badge">On Track</span>
+                </div>
+                <div class="mock-goal-title">Launch a validated business idea</div>
+                <div class="mock-progress-row">
+                  <div class="mock-progress-bar"><div class="mock-progress-fill" style="width:42%"></div></div>
+                  <span class="mock-progress-pct">42%</span>
+                </div>
+                <div class="mock-step-list">
+                  <div class="mock-step done"><span class="step-check">✓</span> Define your core idea</div>
+                  <div class="mock-step done"><span class="step-check">✓</span> Run a 48hr validation sprint</div>
+                  <div class="mock-step active"><span class="step-check">→</span> Get 3 real customer conversations</div>
+                  <div class="mock-step" style="color:var(--text-muted)"><span class="step-check" style="color:var(--s4)">○</span> Build your first offer</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Upshots -->
+        <div class="hscroll-panel panel-feature">
+          <div class="panel-feature-left">
+            <div class="panel-num">03</div>
+            <h3 class="panel-feature-title">Learn only what<br />actually <span style="color:var(--brand)">moves you<br />forward.</span></h3>
+            <p class="panel-feature-body">Kairo curates Upshots — focused learning bursts matched to your exact goal. No endless scrolling. No wasted time. Just the fuel you need, when you need it.</p>
+          </div>
+          <div class="panel-feature-right">
+            <div class="panel-visual">
+              <div class="mock-header">
+                <div class="mock-dot" style="background:#ff5f57"></div>
+                <div class="mock-dot" style="background:#febc2e;margin-left:6px"></div>
+                <div class="mock-dot" style="background:#28c840;margin-left:6px"></div>
+                <div class="mock-avatar">K</div>
+                <div class="mock-name">Today's Upshots</div>
+                <div class="mock-status" style="margin-left:auto">3 queued</div>
+              </div>
+              <div class="mock-upshot">
+                <div class="mock-upshot-label">Kairo picked these for you</div>
+                <div class="mock-upshot-card">
+                  <div class="mock-upshot-card-title">How to validate an idea in 48 hours</div>
+                  <div class="mock-upshot-card-sub">Micro-lesson · Matched to your current milestone</div>
+                  <div class="mock-upshot-meta">
+                    <span class="meta-pill time">8 min</span>
+                    <span class="meta-pill type">✦ Kairo pick</span>
+                  </div>
+                </div>
+                <div class="mock-upshot-card" style="border-left-color:var(--s4);opacity:0.7">
+                  <div class="mock-upshot-card-title">Customer interview framework</div>
+                  <div class="mock-upshot-card-sub">Action guide · Step 3 of your journey</div>
+                  <div class="mock-upshot-meta">
+                    <span class="meta-pill time">12 min</span>
+                    <span class="meta-pill type">✦ Kairo pick</span>
+                  </div>
+                </div>
+                <div class="mock-upshot-card" style="border-left-color:var(--s4);opacity:0.4">
+                  <div class="mock-upshot-card-title">Pricing psychology for new founders</div>
+                  <div class="mock-upshot-card-sub">Deep dive · Next week's milestone prep</div>
+                  <div class="mock-upshot-meta">
+                    <span class="meta-pill time">15 min</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /hscroll-track -->
+    </div><!-- /hscroll-pin -->
+  </div>
+
+  <!-- Scroll progress -->
+  <div id="hscroll-progress"><div id="hscroll-progress-fill"></div></div>
+
+  <!-- KAIRO FEATURES GRID -->
+  <section id="kairo">
+    <p class="section-eyebrow">What Kairo does</p>
+    <h2 class="section-title">Your guide.<br />Your planner.<br /><span style="color:var(--brand)">Your momentum.</span></h2>
+    <p class="section-sub">Kairo doesn't just respond — it moves first. Built to bring you back before you drift.</p>
+
+    <div class="kairo-grid">
+      <div class="kairo-card featured">
+        <div class="card-icon">🎯</div>
+        <div class="card-title">Ambition Graph — Your Personal Progress Map</div>
+        <div class="card-body">The moment you share your goal, Kairo builds your Ambition Graph — a live map of where you are, where you're going, and the exact path between the two. It adapts as you move.</div>
+        <div class="card-stat">
+          <span class="stat-num">93%</span>
+          <span class="stat-label">of users hit their first milestone within 7 days</span>
+        </div>
+      </div>
+
+      <div class="kairo-card tall">
+        <div class="card-icon">🧭</div>
+        <div class="card-title">Always-on guidance</div>
+        <div class="card-body">Kairo doesn't wait for you to ask. It surfaces your next step, adapts when life happens, and brings you back when you fall off — every single day.</div>
+        <div style="margin-top:32px;padding:20px;background:var(--s2);border-radius:12px">
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">From Kairo</div>
+          <div style="font-size:14px;color:var(--text-secondary);line-height:1.6;">"You paused your progress 3 days ago. That's okay — let's take one step today. It doesn't have to be big."</div>
+        </div>
+      </div>
+
+      <div class="kairo-card">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Upshots</div>
+        <div class="card-body">Fast, focused learning bursts matched to your current milestone. No wasted time — just the fuel you need.</div>
+      </div>
+
+      <div class="kairo-card">
+        <div class="card-icon">🔄</div>
+        <div class="card-title">Adaptive paths</div>
+        <div class="card-body">Your journey reshapes itself around your pace, your schedule, and how you actually learn.</div>
+      </div>
+
+      <div class="kairo-card">
+        <div class="card-icon">💬</div>
+        <div class="card-title">Ask Kairo anything</div>
+        <div class="card-body">Stuck? Confused? Just ask. Kairo gives you instant, context-aware answers tied to your goal.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE SHIFT -->
+  <section id="shift">
+    <p class="section-eyebrow" style="text-align:center">The shift we represent</p>
+    <h2 class="section-title" style="text-align:center">From passive<br />to <span style="color:var(--brand)">unstoppable.</span></h2>
+
+    <div class="shift-items" id="shiftItems">
+      <div class="shift-row">
+        <div class="shift-from">What should I learn?</div>
+        <div class="shift-arrow">→</div>
+        <div class="shift-to">What should I do next?</div>
+      </div>
+      <div class="shift-row">
+        <div class="shift-from">Passive consumption</div>
+        <div class="shift-arrow">→</div>
+        <div class="shift-to">Active progression</div>
+      </div>
+      <div class="shift-row">
+        <div class="shift-from">Motivation without execution</div>
+        <div class="shift-arrow">→</div>
+        <div class="shift-to">Direction with momentum</div>
+      </div>
+      <div class="shift-row">
+        <div class="shift-from">Starting and drifting</div>
+        <div class="shift-arrow">→</div>
+        <div class="shift-to">Daily forward movement</div>
+      </div>
+      <div class="shift-row">
+        <div class="shift-from">Learn → maybe apply → maybe succeed</div>
+        <div class="shift-arrow">→</div>
+        <div class="shift-to">Define → act → adapt → succeed</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POSITION -->
+  <section id="position">
+    <div class="position-bg-text">PROGRESS</div>
+    <p class="section-eyebrow" style="text-align:center">What we are</p>
+    <div class="not-grid" id="notGrid">
+      <div class="not-item">Education platform</div>
+      <div class="not-item">Content platform</div>
+      <div class="not-item">Productivity tool</div>
+      <div class="not-item">Another AI chatbot</div>
+    </div>
+    <div class="position-answer" id="positionAnswer">
+      We are a<br /><span class="accent">progress system.</span>
+    </div>
+    <p class="position-sub">
+      Ambition is the brand. Kairo is the guide. Momentum is the outcome.
+    </p>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="cta-glow"></div>
+    <h2 class="cta-title" id="ctaTitle">Stop drifting.<br /><span style="color:var(--brand)">Start moving.</span></h2>
+    <p class="cta-sub">Join thousands who've already started their journey with Kairo — your personal AI guide to making progress inevitable.</p>
+    <div class="cta-actions">
+      <a href="#" class="btn btn-primary btn-large">Begin with Kairo</a>
+    </div>
+    <a href="#" class="btn btn-link" style="margin-top:20px;display:inline-block;">Or learn more about Ambition ↗</a>
+    <p class="cta-note">No credit card required · <span>Free to start</span></p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">
+      <img src="ambition-Logo-onDark.png" alt="Ambition" />
+    </div>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Kairo</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-legal">© 2026 Ambition. All rights reserved.</div>
+  </footer>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ── Cursor glow ──
+    const cursorGlow = document.getElementById('cursorGlow');
+    window.addEventListener('mousemove', e => {
+      gsap.to(cursorGlow, { x: e.clientX, y: e.clientY, duration: 0.8, ease: 'power2.out' });
+    });
+
+    // ── Nav scroll state ──
+    ScrollTrigger.create({
+      start: 'top -80px',
+      onUpdate: self => {
+        document.getElementById('mainNav').classList.toggle('scrolled', self.progress > 0);
+      }
+    });
+
+    // ── Hero entrance ──
+    const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    heroTl
+      .to('#heroEyebrow', { opacity: 1, y: 0, duration: 0.7 }, 0.3)
+      .fromTo('#heroHeadline', { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 1 }, 0.5)
+      .to('#heroSub', { opacity: 1, y: 0, duration: 0.7 }, 0.9)
+      .to('#heroActions', { opacity: 1, y: 0, duration: 0.6 }, 1.1)
+      .to('#heroSecondary', { opacity: 1, duration: 0.5 }, 1.3)
+      .to('#heroProof', { opacity: 1, y: 0, duration: 0.6 }, 1.4)
+      .to('#scrollIndicator', { opacity: 1, duration: 0.6 }, 1.7);
+
+    // Set initial states
+    gsap.set(['#heroSub', '#heroActions', '#heroProof', '#scrollIndicator'], { y: 20 });
+
+    // ── Problem text reveal ──
+    const lines = document.querySelectorAll('#problemStatement .line-inner');
+    lines.forEach((line, i) => {
+      gsap.fromTo(line,
+        { y: '100%', opacity: 0 },
+        {
+          y: '0%', opacity: 1, duration: 0.9,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: line.closest('.line'),
+            start: 'top 85%',
+          },
+          delay: i * 0.12
+        }
+      );
+    });
+
+    // ── Horizontal scroll ──
+    const panels = document.querySelectorAll('.hscroll-panel');
+    const totalPanels = panels.length;
+    const track = document.getElementById('hscroll-track');
+    const progressFill = document.getElementById('hscroll-progress-fill');
+
+    const hScrollTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#hscroll-outer',
+        pin: '#hscroll-pin',
+        start: 'top top',
+        end: () => `+=${(totalPanels - 1) * window.innerWidth * 1.2}`,
+        scrub: 1.2,
+        anticipatePin: 1,
+        onUpdate: self => {
+          progressFill.style.width = (self.progress * 100) + '%';
+        }
+      }
+    });
+
+    hScrollTl.to(track, {
+      x: () => -(totalPanels - 1) * window.innerWidth,
+      ease: 'none'
+    });
+
+    // Panel entrance animations on horizontal scroll
+    panels.forEach((panel, i) => {
+      if (i === 0) return;
+      const left = panel.querySelector('.panel-feature-left');
+      const right = panel.querySelector('.panel-feature-right');
+      if (!left || !right) return;
+      gsap.set(left, { opacity: 0, x: -40 });
+      gsap.set(right, { opacity: 0, x: 40 });
+
+      ScrollTrigger.create({
+        trigger: '#hscroll-outer',
+        start: `top+=${(i - 0.4) * window.innerWidth * 1.2} top`,
+        end: `top+=${(i + 0.3) * window.innerWidth * 1.2} top`,
+        scrub: true,
+        onEnter: () => {
+          gsap.to(left, { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' });
+          gsap.to(right, { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out', delay: 0.1 });
+        },
+        onLeaveBack: () => {
+          gsap.to(left, { opacity: 0, x: -40, duration: 0.4 });
+          gsap.to(right, { opacity: 0, x: 40, duration: 0.4 });
+        }
+      });
+    });
+
+    // ── Kairo feature cards ──
+    gsap.utils.toArray('.kairo-card').forEach((card, i) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1, y: 0, duration: 0.7,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: card, start: 'top 88%' },
+          delay: (i % 3) * 0.1
+        }
+      );
+    });
+
+    // ── Shift rows ──
+    document.querySelectorAll('.shift-row').forEach((row, i) => {
+      gsap.to(row, {
+        opacity: 1, y: 0, duration: 0.6,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: row, start: 'top 88%' },
+        delay: i * 0.1
+      });
+    });
+
+    // ── Position section ──
+    gsap.utils.toArray('.not-item').forEach((item, i) => {
+      gsap.fromTo(item,
+        { opacity: 0, scale: 0.9 },
+        {
+          opacity: 1, scale: 1, duration: 0.4,
+          ease: 'back.out(1.4)',
+          scrollTrigger: { trigger: '#notGrid', start: 'top 85%' },
+          delay: i * 0.1
+        }
+      );
+    });
+
+    gsap.fromTo('#positionAnswer',
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1, y: 0, duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: '#positionAnswer', start: 'top 85%' }
+      }
+    );
+
+    // ── CTA section ──
+    gsap.fromTo('#ctaTitle',
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1, y: 0, duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: '#ctaTitle', start: 'top 85%' }
+      }
+    );
+
+    // ── Section labels / eyebrows ──
+    gsap.utils.toArray('.section-eyebrow, .section-title, .section-sub').forEach(el => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1, y: 0, duration: 0.7,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 88%' }
+        }
+      );
+    });
+
+    // ── Parallax hero glows ──
+    gsap.to('.hero-glow-1', {
+      y: -100,
+      ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+    });
+
+    // ── Background canvas — aurora orbs + momentum particles ──
+    (function () {
+      const canvas = document.getElementById('bgCanvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles, orbs;
+      let tick = 0;
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+        initOrbs();
+      }
+
+      // ── ORBS: large slow aurora blobs ──
+      function initOrbs() {
+        orbs = [
+          // one brand-tinted orb — hero area only
+          { x: W * 0.15, y: H * 0.20, r: W * 0.40, dx: 0.10, dy: 0.06, phase: 0.0,  col: '206,255,20', a: 0.025 },
+          // rest are neutral warm white
+          { x: W * 0.82, y: H * 0.65, r: W * 0.34, dx: -0.08, dy: -0.05, phase: 1.8, col: '255,255,240', a: 0.018 },
+          { x: W * 0.50, y: H * 0.90, r: W * 0.28, dx: 0.05,  dy: -0.07, phase: 3.2, col: '240,245,255', a: 0.014 },
+        ];
+      }
+
+      // ── PARTICLES: upward drifting sparks ──
+      function makeParticle() {
+        const isBrand = Math.random() < 0.10; // reduced to ~10% brand particles
+        return {
+          x: Math.random() * W,
+          y: H + Math.random() * H,
+          vy: -(Math.random() * 0.6 + 0.2),
+          vx: (Math.random() - 0.5) * 0.15,
+          size: Math.random() * 1.8 + 0.5,
+          alpha: isBrand ? (Math.random() * 0.25 + 0.12) : (Math.random() * 0.12 + 0.05),
+          col: isBrand ? '206,255,20' : '255,255,255',
+          pulse: Math.random() * Math.PI * 2,
+          pulseSpeed: Math.random() * 0.02 + 0.008,
+          trail: isBrand,
+        };
+      }
+
+      function initParticles() {
+        const count = Math.min(Math.floor((W * H) / 8000), 140);
+        particles = Array.from({ length: count }, makeParticle);
+        // Spread initial y across the whole screen
+        particles.forEach(p => { p.y = Math.random() * H; });
+      }
+
+      function draw() {
+        tick++;
+        ctx.clearRect(0, 0, W, H);
+
+        // ── Draw aurora orbs ──
+        orbs.forEach(o => {
+          o.phase += 0.004;
+          const ox = o.x + Math.sin(o.phase * 0.7)  * W * 0.12 + o.dx * tick * 0.015;
+          const oy = o.y + Math.cos(o.phase * 0.5)  * H * 0.08 + o.dy * tick * 0.015;
+
+          const grad = ctx.createRadialGradient(ox, oy, 0, ox, oy, o.r);
+          grad.addColorStop(0,   `rgba(${o.col},${o.a})`);
+          grad.addColorStop(0.5, `rgba(${o.col},${o.a * 0.4})`);
+          grad.addColorStop(1,   `rgba(${o.col},0)`);
+
+          ctx.beginPath();
+          ctx.ellipse(ox, oy, o.r, o.r * 0.65, o.phase * 0.1, 0, Math.PI * 2);
+          ctx.fillStyle = grad;
+          ctx.fill();
+        });
+
+        // ── Draw particles ──
+        particles.forEach(p => {
+          p.pulse += p.pulseSpeed;
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.y < -10) { Object.assign(p, makeParticle()); p.y = H + 5; }
+          if (p.x < -5)  p.x = W + 5;
+          if (p.x > W+5) p.x = -5;
+
+          const a = p.alpha * (0.6 + 0.4 * Math.sin(p.pulse));
+
+          // upward streak trail for brand particles
+          if (p.trail && p.size > 1.2) {
+            const len = p.size * 14;
+            const trailGrad = ctx.createLinearGradient(p.x, p.y, p.x + p.vx * 4, p.y + len);
+            trailGrad.addColorStop(0, `rgba(${p.col},${a * 0.5})`);
+            trailGrad.addColorStop(1, `rgba(${p.col},0)`);
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p.x + p.vx * 4, p.y + len);
+            ctx.strokeStyle = trailGrad;
+            ctx.lineWidth = p.size * 0.6;
+            ctx.stroke();
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${p.col},${a})`;
+          ctx.fill();
+        });
+
+        requestAnimationFrame(draw);
+      }
+
+      resize();
+      initParticles();
+      draw();
+      window.addEventListener('resize', () => { resize(); initParticles(); });
+    })();
+  </script>
+</body>
+</html>
