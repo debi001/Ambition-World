@@ -447,20 +447,20 @@
     .mock-dot { width: 8px; height: 8px; border-radius: 50%; }
     .mock-avatar {
       width: 28px; height: 28px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--brand) 0%, #8bff00 100%);
+      background: var(--s4);
       display: flex; align-items: center; justify-content: center;
-      font-size: 10px; font-weight: 700; color: #0a0a0a; margin-left: auto;
+      font-size: 10px; font-weight: 700; color: var(--text-primary); margin-left: auto;
     }
     .mock-name {
       font-size: 13px; font-weight: 600; color: var(--text-primary); margin-left: 4px;
     }
     .mock-status {
-      font-size: 11px; font-weight: 500; color: var(--brand);
+      font-size: 11px; font-weight: 500; color: var(--text-muted);
       display: flex; align-items: center; gap: 5px;
     }
     .mock-status::before {
       content: ''; width: 5px; height: 5px; border-radius: 50%;
-      background: var(--brand); display: inline-block;
+      background: var(--text-muted); display: inline-block;
     }
     .mock-body { padding: 20px; }
     .mock-chat { display: flex; flex-direction: column; gap: 12px; }
@@ -478,8 +478,8 @@
       border-bottom-left-radius: 4px;
     }
     .msg-user {
-      background: rgba(206,255,20,0.1);
-      border: 1px solid rgba(206,255,20,0.2);
+      background: var(--s3);
+      border: 1px solid var(--s4);
       color: var(--text-primary);
       align-self: flex-end;
       border-bottom-right-radius: 4px;
@@ -496,9 +496,9 @@
     }
     .mock-send {
       width: 32px; height: 32px; border-radius: 50%;
-      background: var(--brand);
+      background: var(--s4);
       display: flex; align-items: center; justify-content: center;
-      font-size: 12px; color: #0a0a0a;
+      font-size: 12px; color: var(--text-primary);
     }
 
     /* Goal card mock */
@@ -511,15 +511,15 @@
     }
     .mock-goal-label { font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
     .mock-goal-badge {
-      background: rgba(206,255,20,0.1); border: 1px solid rgba(206,255,20,0.2);
+      background: var(--s3); border: 1px solid var(--s4);
       border-radius: 999px; padding: 4px 10px;
-      font-size: 10px; font-weight: 700; color: var(--brand); letter-spacing: 0.06em;
+      font-size: 10px; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.06em;
     }
     .mock-goal-title { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; }
     .mock-progress-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
     .mock-progress-bar { flex: 1; height: 4px; background: var(--s3); border-radius: 2px; overflow: hidden; }
-    .mock-progress-fill { height: 100%; background: var(--brand); border-radius: 2px; transition: width 1s ease; }
-    .mock-progress-pct { font-size: 12px; font-weight: 700; color: var(--brand); }
+    .mock-progress-fill { height: 100%; background: var(--text-secondary); border-radius: 2px; transition: width 1s ease; }
+    .mock-progress-pct { font-size: 12px; font-weight: 700; color: var(--text-secondary); }
     .mock-step-list { display: flex; flex-direction: column; gap: 8px; }
     .mock-step {
       display: flex; align-items: center; gap: 10px;
@@ -527,8 +527,8 @@
       font-size: 12px; font-weight: 500;
     }
     .mock-step.done { color: var(--text-muted); }
-    .mock-step.done .step-check { color: var(--brand); }
-    .mock-step.active { border: 1px solid rgba(206,255,20,0.3); color: var(--text-primary); }
+    .mock-step.done .step-check { color: var(--text-muted); }
+    .mock-step.active { border: 1px solid var(--s4); color: var(--text-primary); }
     .mock-step.active .step-check { color: var(--s4); }
     .step-check { font-size: 14px; }
 
@@ -538,7 +538,7 @@
     .mock-upshot-card {
       background: var(--s2); border-radius: 12px;
       padding: 16px; margin-bottom: 10px;
-      border-left: 3px solid var(--brand);
+      border-left: 3px solid var(--s4);
     }
     .mock-upshot-card-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
     .mock-upshot-card-sub { font-size: 11px; color: var(--text-muted); }
